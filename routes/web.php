@@ -30,3 +30,15 @@ Route::get('/editUser/{userId}','PagesController@updateData');
 Route::get('/updateForm','PagesController@showUpdateForm');
 
 Route::post('/updateUser','PagesController@updateUser');
+
+Route::get('/addAccount','PagesController@addAccount');
+
+Route::post('/storeAccountDetails','PagesController@storeAccountDetails');
+
+Route::get('/showAccountData','PagesController@showAccountData');
+
+Route::get('/editAccount/{accountId}','PagesController@editAccount');
+
+Route::post('/updateAccountDetails','PagesController@updateAccountDetails');
+
+Route::get('/deleteAccount/{accountId}','PagesController@deleteAccount');

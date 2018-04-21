@@ -10,5 +10,10 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $guarded = ['id','created_at','updated_at'];
+
+    public function account()
+    {
+    	return $this->hasMany(Account::class);
+    }
     
 }

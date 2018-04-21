@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Account;
 
 class PagesController extends Controller
 {
@@ -57,7 +58,9 @@ class PagesController extends Controller
     public function showData()
     {
         $usersList = new User;
+        // dd($usersList);
         $userCollection = $usersList->all();
+        // dd($userCollection);
         return view('show')->with('userRows',$userCollection);
     }
 
@@ -74,6 +77,7 @@ class PagesController extends Controller
     {
        $user = new User();
        $user = $user->where('id',$userId)->get();
+       //dd($user);
        $user = $user[0];
        //dd($user);
        return view('userUpdateForm')->with('userData',$user);
@@ -102,5 +106,63 @@ class PagesController extends Controller
        $user->save();
 
        return redirect('showData');
+    }
+
+    public function addAccount()
+    {
+      return view('addAccount');
+    }
+
+    public function storeAccountDetails(Request $request)
+    {  
+      $account = new Account($request->all());
+      $account->save();
+      //echo 'done';
+      return redirect('showAccountData');
+    }
+
+    public function showAccountData()
+    {
+      $account = new Account();
+      $account = $account->all();
+      return view('showAccountData')->with('accountData',$account);
+    }
+
+    public function editAccount($accountId)
+    {
+        $account = new Account();
+       $account = $account->where('id',$accountId)->get();
+       //dd($account);
+       $account = $account[0];
+       //dd($account);
+       return view('accountUpdateForm')->with('accountData',$account);
+    }
+
+    public function updateAccountDetails(Request $request)
+    {
+       $account = new Account();
+       $accountData = $request->all();
+       $account = $account->where('id',$accountData['id'])->get();
+       $account = $account[0];
+
+      //dd($account);
+
+       $account->type = $request->type;
+       $account->balance = $request->balance;
+       $account->user_id = $request->user_id;
+       // $account->remember_token = $request->remember_token;
+
+       $account->save();
+
+       return redirect('showAccountData');
+    }
+
+    public function deleteAccount($accountId)
+    {
+      $account = new Account();
+      $account->destroy($accountId);
+      return redirect('showAccountData');
+
+
     }
 }
