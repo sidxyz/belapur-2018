@@ -89,10 +89,10 @@ class PagesController extends Controller
     {
        $user = new User();
        $userData = $request->all();
-       dd($userData);
-       $user = $user->where('id',$userData->id)->get();
-       
+       $user = $user->where('id',$userData['id'])->get();
        $user = $user[0];
+
+      //dd($user);
 
        $user->name = $request->name;
        $user->email = $request->email;
