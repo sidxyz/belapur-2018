@@ -78,9 +78,17 @@
         </div>
         <div class="col-md-8 order-md-1">
           <h4 class="mb-3">Billing address</h4>
-          <form class="needs-validation" novalidate method="POST" action="/addData">
+          <form class="needs-validation" novalidate method="POST" action="/addData" enctype="multipart/form-data">
            <input type="hidden" value={{csrf_token()}} name ="_token">
             <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName">Profile Image</label>
+
+                <input type="file" class="form-control" id="avatar" placeholder="" value="" required name="avatar">
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
               <div class="col-md-6 mb-3">
                 <label for="firstName">Name</label>
 

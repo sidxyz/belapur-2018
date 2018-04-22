@@ -11,11 +11,12 @@
 |
 */
 
-Route::get('/','PagesController@index');
-
-Route::get('/two','PagesController@two');
-
-Route::get('/three','PagesController@three');
+Route::middleware(['auth'])->group(function () 
+{
+	Route::get('/','PagesController@index')->name('/');
+	Route::get('/two','PagesController@two')->name('two');
+	Route::get('/three','PagesController@three')->name('three');
+});
 
 Route::get('/add','PagesController@add');
 
@@ -42,3 +43,7 @@ Route::get('/editAccount/{accountId}','PagesController@editAccount');
 Route::post('/updateAccountDetails','PagesController@updateAccountDetails');
 
 Route::get('/deleteAccount/{accountId}','PagesController@deleteAccount');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

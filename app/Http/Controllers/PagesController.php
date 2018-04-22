@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Account;
+use Image;
+use App\Mail\TestEmail;
+use Mail;
+// use Intervention\Image\Facades\Image;
+
 
 class PagesController extends Controller
 {
@@ -34,25 +39,25 @@ class PagesController extends Controller
 
     public function addData(Request $request)
     {
-        // echo "entered name is ".$request->name;
-        // echo " and password name is ".$request->password;
-        // echo " and email name is ".$request->email;
-        // echo " and remember name is ".$request->remember;
+         $user = new User();
+          $data = ['message' => 'This is a test!'];
+        if($request->hasFile('avatar'))
+        {
+            $avatar = $request->file('avatar');
+            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            Image::make($avatar)->resize(300, 300)->save( public_path('/uploads/avatars/' . $filename ) );
+            $user->image_url = $filename;
+            $user->name = $request->name;
+            $user->password = $request->password;
+            $user->email = $request->email;
+            $user->remember_token = $request->remember;
+            $user->save();
+        }
 
-        //dd($request->all());
+          Mail::to($user->email)->send(new TestEmail($data));
+         //  Mail::to($user->email)->cc('arundhati.amexs@gmail.com')->send((Mailable)"This is some mailable content");
+         // return redirect('showData');
 
-         $user = new User($request->all());
-         $user->save();
-
-         //echo "saved";
-         return redirect('showData');
-
-        // $user->name = $request->name;
-        // $user->password = $request->password;
-        // $user->email = $request->email;
-        // $user->remember_token = $request->remember;
-
-        // $user->save();
     }
 
     public function showData()
